@@ -5,38 +5,37 @@ export enum SearchType {
   episode = "episode",
 }
 
-export interface DetailsResult {
-  Genre: string;
+export interface SearchResult {
   Title: string;
   Year: string;
   Poster: string;
-  Plot: string;
-  imdbRating: string;
-  Director: string;
-  Actors: string;
-  Website: string;
+  imdbID: string;
+  Type: string;
 }
 
 export const useApi = () => {
   let url = "https://www.omdbapi.com/";
   let apiKey = "35af6edf";
-};
 
-const searchData = async (title: string, type: SearchType): Promise<any> => {
-  const result = await fetch(
-    `${url}?s=${encodeURI(title)}&type=${type}&apiKey=${apiKey}`
-  );
-  return result.json();
-};
+  const searchData = async (
+    title: string,
+    type: SearchType
+  ): Promise<SearchResult[]> => {
+    const result = await fetch(
+      `${url}?s=${encodeURI(title)}&type=${type}&apiKey=${apiKey}`
+    );
+    return result.json();
+  };
 
-const getDetails = async (id: string): Promise<DetailsResult> => {
-  const result = await fetch(`${url}?i=${id}&plot=full&apiKey={apiKey}`);
-  return result.json();
-};
+  const getDetails = async (id: string): Promise<SearchResult> => {
+    const result = await fetch(`${url}?i=${id}&plot=full&apiKey={apiKey}`);
+    return result.json();
+  };
 
-return {
-  searchData,
-  getDetails,
+  return {
+    searchData,
+    getDetails,
+  };
 };
 
 export default useApi;
