@@ -8,7 +8,7 @@ import {
 import ExploreContainer from "../components/ExploreContainer";
 import "./Home.css";
 import useApi from "../hooks/useApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Home: React.FC = () => {
   const { searchData } = useApi;
@@ -16,6 +16,10 @@ const Home: React.FC = () => {
   const { searchTerm, setSearchTerm } = useState("");
   const { type, setType } = useState("");
   const { results, setResults } = useState([]);
+
+  useEffect(() => {
+    console.log("SEARCH");
+  });
 
   return (
     <IonPage>
