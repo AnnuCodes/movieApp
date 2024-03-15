@@ -23,6 +23,7 @@ export interface DetailsResult {
   Director: string;
   Actors: string;
   Website: string;
+  Awards: string;
 }
 
 export interface SearchError {
