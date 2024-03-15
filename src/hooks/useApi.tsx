@@ -13,21 +13,38 @@ export interface SearchResult {
   Type: string;
 }
 
+export interface DetailsResult {
+  Genre: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+  Plot: string;
+  imdbRating: string;
+  Director: string;
+  Actors: string;
+  Website: string;
+}
+
+export interface SearchError {
+  Response: string;
+  Error: string;
+}
+
 export const useApi = () => {
-  let url = "https://www.omdbapi.com/";
+  let url = "https://www.omdbapi.com";
   let apiKey = "35af6edf";
 
-  const searchData = async (
+  async function searchData(
     title: string,
     type: SearchType
-  ): Promise<SearchResult[]> => {
+  ): Promise<SearchResult[] | SearchError> {
     const result = await fetch(
       `${url}?s=${encodeURI(title)}&type=${type}&apiKey=${apiKey}`
     );
     return result.json();
-  };
+  }
 
-  const getDetails = async (id: string): Promise<SearchResult> => {
+  const getDetails = async (id: string): Promise<DetailsResult> => {
     const result = await fetch(`${url}?i=${id}&plot=full&apiKey={apiKey}`);
     return result.json();
   };

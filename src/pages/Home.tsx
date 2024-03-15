@@ -1,6 +1,9 @@
 import {
+  IonAvatar,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonImg,
   IonItem,
   IonLabel,
   IonList,
@@ -10,17 +13,22 @@ import {
   IonSelectOption,
   IonTitle,
   IonToolbar,
+  useIonAlert,
+  useIonLoading,
 } from "@ionic/react";
 import "./Home.css";
 import useApi, { SearchResult, SearchType } from "../hooks/useApi";
 import { useEffect, useState } from "react";
+import { videocamOutline } from "ionicons/icons";
 
 const Home: React.FC = () => {
-  const { SearcData } = useApi;
+  const { searchData } = useApi();
 
-  const { searchTerm, setSearchTerm } = useState("");
-  const { type, setType } = useState<SearchType>(SearchType.all);
-  const { results, setResults } = useState<SearchResult>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [type, setType] = useState<SearchType>(SearchType.all);
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [presentAlert] = useIonAlert();
+  const [loading, dismiss] = useIonLoading();
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -28,11 +36,15 @@ const Home: React.FC = () => {
       return;
     }
     const loadData = async () => {
-      const result = await searchData(searchTerm, type);
-
-      setResults(result);
-
-      console.log("~file: Home.tsx:31 ~ result", result);
+      await loading();
+      const result: any = await searchData(searchTerm, type);
+      console.log("~file: Home.tsx:31 ~ loadData ~ result", result);
+      await dismiss();
+      if (result?.Error) {
+        presentAlert(result.Error);
+      } else {
+        setResults(result.Search);
+      }
     };
     loadData();
   }, [searchTerm]);
@@ -61,8 +73,12 @@ const Home: React.FC = () => {
         </IonItem>
         <IonList>
           {results.map((item: SearchResult) => (
-            <IonItem>
+            <IonItem key={item.imdbID}>
+              <IonAvatar slot="start">
+                <IonImg src={item.Poster} />
+              </IonAvatar>
               <IonLabel>{item.Title}</IonLabel>
+              <IonIcon slot="end" icon={videocamOutline} />
             </IonItem>
           ))}
         </IonList>
