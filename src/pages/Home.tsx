@@ -19,7 +19,11 @@ import {
 import "./Home.css";
 import useApi, { SearchResult, SearchType } from "../hooks/useApi";
 import { useEffect, useState } from "react";
-import { videocamOutline } from "ionicons/icons";
+import {
+  gameControllerOutline,
+  tvOutline,
+  videocamOutline,
+} from "ionicons/icons";
 
 const Home: React.FC = () => {
   const { searchData } = useApi();
@@ -73,12 +77,24 @@ const Home: React.FC = () => {
         </IonItem>
         <IonList>
           {results.map((item: SearchResult) => (
-            <IonItem key={item.imdbID}>
+            <IonItem
+              button
+              key={item.imdbID}
+              routerLink={`/movies/${item.imdbID}`}
+            >
               <IonAvatar slot="start">
                 <IonImg src={item.Poster} />
               </IonAvatar>
-              <IonLabel>{item.Title}</IonLabel>
-              <IonIcon slot="end" icon={videocamOutline} />
+              <IonLabel className="ion-text-wrap">{item.Title}</IonLabel>
+              {item.Type === "movie" && (
+                <IonIcon slot="end" icon={videocamOutline} />
+              )}
+              {item.Type === "series" && (
+                <IonIcon slot="end" icon={tvOutline} />
+              )}
+              {item.Type === "game" && (
+                <IonIcon slot="end" icon={gameControllerOutline} />
+              )}
             </IonItem>
           ))}
         </IonList>
