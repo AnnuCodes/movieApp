@@ -21,7 +21,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import useApi, { DetailsResult } from "../hooks/useApi";
-import { starHalfOutline } from "ionicons/icons";
+import {
+  bodyOutline,
+  clipboardOutline,
+  starHalfOutline,
+  trophyOutline,
+} from "ionicons/icons";
 
 interface DetailsPageProps
   extends RouteComponentProps<{
@@ -72,7 +77,33 @@ const Details: React.FC<DetailsPageProps> = ({ match }) => {
             </IonCardContent>
           </IonCard>
         )}
-        <IonModal trigger="open-modal"></IonModal>
+        <IonModal
+          trigger="open-modal"
+          initialBreakpoint={0.25}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+        >
+          <IonContent className="ion-padding">
+            <IonItem lines="none">
+              <IonIcon icon={clipboardOutline} slot="start" />
+              <IonLabel className="ion-text-wrap">
+                {information?.Director}
+              </IonLabel>
+            </IonItem>
+            <IonItem lines="none">
+              <IonIcon icon={bodyOutline} slot="start" />
+              <IonLabel className="ion-text-wrap">
+                {information?.Actors}
+              </IonLabel>
+            </IonItem>
+            <IonItem lines="none">
+              <IonIcon icon={trophyOutline} slot="start" />
+              <IonLabel className="ion-text-wrap">
+                {information?.Awards}
+              </IonLabel>
+            </IonItem>
+            <p className="ion-padding">{information?.Plot}</p>
+          </IonContent>
+        </IonModal>
         <IonButton expand="full" id="open-modal"></IonButton>
       </IonContent>
     </IonPage>
