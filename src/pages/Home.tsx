@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       }
     };
     loadData();
-  }, [searchTerm]);
+  }, [searchTerm, type]);
 
   return (
     <IonPage>

@@ -31,7 +31,7 @@ export interface SearchError {
 }
 
 export const useApi = () => {
-  let url = "https://www.omdbapi.com";
+  let url = "https://www.omdbapi.com/";
   let apiKey = "35af6edf";
 
   async function searchData(
@@ -45,7 +45,7 @@ export const useApi = () => {
   }
 
   const getDetails = async (id: string): Promise<DetailsResult> => {
-    const result = await fetch(`${url}?i=${id}&plot=full&apiKey={apiKey}`);
+    const result = await fetch(`${url}?i=${id}&plot=full&apiKey=${apiKey}`);
     return result.json();
   };
 
